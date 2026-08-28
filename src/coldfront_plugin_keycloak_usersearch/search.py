@@ -5,8 +5,8 @@ from coldfront.config.env import ENV
 from coldfront_plugin_keycloak_usersearch.keycloak import KeycloakClient
 
 KEYCLOAK_URL = ENV.get_value('KEYCLOAK_URL')
-KEYCLOAK_USER = ENV.get_value('KEYCLOAK_USER')
-KEYCLOAK_PASS = ENV.get_value('KEYCLOAK_PASS')
+KEYCLOAK_CLIENT_ID = ENV.get_value('KEYCLOAK_CLIENT_ID')
+KEYCLOAK_CLIENT_SECRET = ENV.get_value('KEYCLOAK_CLIENT_SECRET')
 KEYCLOAK_REALM = ENV.get_value('KEYCLOAK_REALM')
 
 KEYCLOAK_CLIENT = None  # type: KeycloakClient
@@ -19,8 +19,9 @@ class KeycloakUserSearch(UserSearch):
         global KEYCLOAK_CLIENT
         if not KEYCLOAK_CLIENT:
             KEYCLOAK_CLIENT = KeycloakClient(KEYCLOAK_URL,
-                                             KEYCLOAK_USER,
-                                             KEYCLOAK_PASS)
+                                             KEYCLOAK_REALM,
+                                             KEYCLOAK_CLIENT_ID,
+                                             KEYCLOAK_CLIENT_SECRET)
 
         super().__init__(*args, **kwargs)
 
