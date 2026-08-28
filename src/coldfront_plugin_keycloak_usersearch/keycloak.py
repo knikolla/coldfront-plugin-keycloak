@@ -30,7 +30,11 @@ class KeycloakClient(object):
             'client_id': self.client_id,
             'client_secret': self.client_secret,
         }
-        r = requests.post(self.token_endpoint(self.realm), data=params).json()
+        response = requests.post(self.token_endpoint(self.realm), data=params)
+        response.raise_for_status()
+        r = response.json()
+        if 'access_token' not in r:
+            raise ValueError('Keycloak token response did not include access_token')
         headers = {
             'Authorization': 'Bearer ' + r['access_token'],
             'Content-Type': 'application/json'
