@@ -12,17 +12,17 @@ class KeycloakClient(object):
         self._client_auth()
 
     def construct_url(self, realm, path):
-        return f'{self.url}/auth/admin/realms/{realm}/{path}'
+        return f'{self.url}/admin/realms/{realm}/{path}'
 
     @property
     def url_base(self):
-        return f'{self.url}/auth/admin/realms'
+        return f'{self.url}/admin/realms'
 
     def auth_endpoint(self, realm):
-        return f'{self.url}/auth/realms/{realm}/protocol/openid-connect/auth'
+        return f'{self.url}/realms/{realm}/protocol/openid-connect/auth'
 
     def token_endpoint(self, realm):
-        return f'{self.url}/auth/realms/{realm}/protocol/openid-connect/token'
+        return f'{self.url}/realms/{realm}/protocol/openid-connect/token'
 
     def _client_auth(self):
         params = {
