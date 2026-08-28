@@ -5,8 +5,8 @@ from coldfront.config.env import ENV
 from coldfront_plugin_keycloak_usersearch.keycloak import KeycloakClient
 
 KEYCLOAK_URL = ENV.get_value('KEYCLOAK_URL')
-KEYCLOAK_CLIENT_ID = ENV.get_value('KEYCLOAK_CLIENT_ID')
-KEYCLOAK_CLIENT_SECRET = ENV.get_value('KEYCLOAK_CLIENT_SECRET')
+KEYCLOAK_CLIENT_ID = ENV.get_value('OIDC_RP_CLIENT_ID')
+KEYCLOAK_CLIENT_SECRET = ENV.get_value('OIDC_RP_CLIENT_SECRET')
 KEYCLOAK_REALM = ENV.get_value('KEYCLOAK_REALM')
 
 KEYCLOAK_CLIENT = None  # type: KeycloakClient
