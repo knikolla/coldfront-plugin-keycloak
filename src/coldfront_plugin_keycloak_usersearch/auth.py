@@ -18,11 +18,14 @@ class OIDCKeycloakAuthenticationBackend(OIDCAuthenticationBackend):
         # hash the email address.
         return claims.get("preferred_username") or claims.get("username", "")
 
-    def _sync_permissions(self, user, claims):
-        """Helper to assign or revoke staff/superuser status based on the 'groups' claim."""
-        groups = claims.get("groups", [])
+    def _sync_user(self, user, claims):
+        """Syncs first name, last name, and admin permissions from claims."""
+        user.first_name = claims.get("given_name", "")
+        user.last_name = claims.get("family_name", "")
 
         # Grant or revoke permissions based on group membership
+        groups = claims.get("groups", [])
+
         is_pi = PI_GROUP in groups
         user.userprofile.is_pi = is_pi
         user.userprofile.save()
@@ -37,9 +40,9 @@ class OIDCKeycloakAuthenticationBackend(OIDCAuthenticationBackend):
     def create_user(self, claims):
         """Called when a user logs in for the first time."""
         user = super().create_user(claims)
-        return self._sync_permissions(user, claims)
+        return self._sync_user(user, claims)
 
     def update_user(self, user, claims):
         """Called on subsequent logins to keep permissions updated."""
         user = super().update_user(user, claims)
-        return self._sync_permissions(user, claims)
+        return self._sync_user(user, claims)
